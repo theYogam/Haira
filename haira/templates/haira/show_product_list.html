@@ -1,0 +1,66 @@
+{% extends 'haira/home.html' %}
+{% load static humanize auth_tokens webdesign i18n currency user_agents staticfiles %}
+
+{% block page_title %}
+    <title>{% trans 'Booking - Haira Global Network' %}</title>
+{% endblock %}
+
+{% block head_style %}
+    {{ block.super }}
+    <style>
+        #navbar.active {
+            background: #DA4453;  /* fallback for old browsers */
+            background: -webkit-linear-gradient(to right, #89216B, #DA4453);  /* Chrome 10-25, Safari 5.1-6 */
+            background: linear-gradient(to right, #89216B, #DA4453); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+            transition: 10s 5s background ease ;
+        }
+        body {
+            background-image: none;
+            font-family: Helvetica Neue, Helvetica, Arial, sans-serif;
+            font-size: 14px;
+            {#color:#000;#}
+            margin: 0;
+            padding: 0;
+        }
+        footer a:not(:hover), footer span {color: #525252;}
+        footer a.company-name strong { color: #ab2012;}
+    </style>
+
+{% endblock %}
+
+{% block page_content %}
+    <div class="booking banner"></div>
+    <div class="booking products container" style="color: #464646">
+        <h1 class="text-center">{% trans 'Come and celebrate with us' %}</h1>
+        <div>
+            {% for product in product_list %}
+                <div class="col-md-4" style="padding-bottom: 50px">
+                    <div class="product text-center">
+                        <div class="">
+                            <div class="item-image" style="background-image: url({% get_media_prefix %}{{ product.image }});"></div>
+                        </div>
+                        <h3>{{ product.name }}</h3>
+                        <div class="add-ons">
+                            {{ product.details }}
+                        </div>
+                        <div class="cost hidden-xs" data-product-cost="{{ product.cost|floatformat:"0"|intcomma }}">
+                            <sup>&nbsp;&nbsp;&nbsp;XAF</sup>
+                            <span class="value">
+                                {{ product.cost|floatformat:"0"|intcomma }}
+                            </span>
+                        </div>
+                        <div class="cost visible-xs" data-product-cost="{{ product.cost|floatformat:"0"|intcomma }}">
+                            <sup>&nbsp;&nbsp;&nbsp;XAF</sup>
+                            <span class="value">
+                                {{ product.cost|floatformat:"0"|intcomma }}</span>
+                        </div>
+                        <button class="btn btn-block btn-outline-success {% if user.is_authenticated %}payment-start{% else %}prompt-login{% endif %}"
+                            data-product-id="{{ product.id }}" data-cost="{{ product.cost }}">{% trans 'Book now' %}</button>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+{% endblock %}
+
+{% include 'billing/snippets/modal_payment_options.html' %}

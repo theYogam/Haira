@@ -1,0 +1,100 @@
+{% extends "core/base_bs.html" %}
+{% load i18n static humanize currency %}
+
+{% block meta %}
+    <meta name="abstract" content="{{ service.project_name }} - {{ config.slogan }}" />
+    <meta name="description" content="{{ config.short_description }}" />
+    <meta property="og:title" content="{{ service.project_name }} - {{ config.slogan }}" />
+    {% if module_pricing.image.name %}
+        <meta property="og:image" content="{% get_media_prefix %}{{ module_pricing.image.name }}" />
+    {% else %}
+        <meta property="og:image" content="{% get_media_prefix %}{{ config.logo.name }}" />
+    {% endif %}
+    <meta property="og:description" content="{{ config.short_description }}" />
+    <meta property="og:site_name" content="{{ service.domain|upper }}" />
+{% endblock %}
+
+{% block page_title %}<title>{{ service.project_name }} - {{ config.slogan }}</title>{% endblock %}
+{% block head_style %}
+    {{ block.super }}
+    <link rel='stylesheet' href="{% static 'ikwen/css/pricing.css' %}" />
+    {% if config.theme %}
+        <link rel='stylesheet' href="{{ service.app.slug }}/css/{{ config.theme.template.slug }}/{{ config.theme.slug }}.css" />
+    {% endif %}
+{% endblock %}
+
+{% block content %}
+    <div id="content">
+        <div class="container">
+            <h2>{{ module_pricing.title }}</h2>
+            <div style="margin-top: 30px">
+                <p>{{ module_pricing.content|safe }}</p>
+                {% if module_pricing.image.name %}
+                    <div class="text-center">
+                        <img src="{{ module_pricing.image.url }}" style="margin: 30px auto 0" class="img-responsive" />
+                    </div>
+                {% endif %}
+            </div>
+            <div class="row">
+            {% for product in product_list %}
+                <div class="col-sm-4 col-lg-3 product-container">
+                    <div class="product">
+                        <h2 class="cost">
+                            <span>{{ product.cost|floatformat:"0"|intcomma }}</span>
+                            <sup class="currency">{{ CURRENCY.symbol }}</sup>
+                        </h2>
+                        <p class="text-center name">
+                            <strong class="text-muted">{{ product.duration_text }}</strong>
+                        </p>
+                        <div class="description text-muted">
+                            {{ product.short_description|safe }}
+                        </div>
+                        <button class="btn btn-sm btn-warning cta btn-block choose" data-id="{{ product.id }}" data-toggle="modal"
+                                {% if user.is_anonymous %}data-target="#login-to-continue"{% endif %}>{% trans "Buy Now" %}</button>
+                    </div>
+                </div>
+            {% endfor %}
+            </div>
+        </div>
+    </div>
+    {% with payment_conf='subscription' %}
+    {% include 'billing/snippets/modal_payment_options.html' %}
+    {% endwith %}
+{% endblock %}
+{% block js %}
+    {{ block.super }}
+    <script type="text/javascript">
+        (function() {
+            {% if user.is_authenticated %}
+                $('.product .btn').click(function() {
+                    $('#payment-methods').modal('show');
+                    var productId = $(this).data('id');
+                    $('#product-id').val(productId);
+                });
+                $('.payment-method').click(function() {
+                    var actionURL = $(this).data('action-url');
+                    $('form#checkout').attr('action', actionURL).submit();
+                });
+            {% endif %}
+            var winWidth = $(window).width(),
+                count = $('.product').length,
+                shift = 0;
+            if (winWidth >= 1200) {
+                switch (count) {
+                    case 1: shift = 4; break;
+                    case 2: shift = 3; break;
+                    case 3: shift = 1; break;
+                }
+                $('.product:first').parent().addClass('col-lg-offset-' + shift);
+            } else if (winWidth >= 768) {
+                switch (count) {
+                    case 1: shift = 4; break;
+                    case 2: shift = 2; break;
+                }
+                $('.product:first').parent().addClass('col-sm-offset-' + shift);
+            }
+
+        })()
+    </script>
+    {{ config.scripts|safe }}
+{% endblock %}

@@ -1,0 +1,50 @@
+{% extends 'haira/home.html' %}
+{% load static humanize auth_tokens webdesign i18n user_agents staticfiles %}
+
+{% block page_title %}
+    <title>{% trans 'About Haira - Haira Global Network' %}</title>
+{% endblock %}
+
+{% block head_style %}
+    {{ block.super }}
+    <link rel="stylesheet" href="{% static 'ikwen/swiper/css/swiper.min.css' %}">
+    <style>
+        body {background-image: url({% static 'haira/img/about.jpg' %});  background-blend-mode: normal;}
+        footer a.company-name strong { color: #edc82f;}
+        @media (max-width: 767px) {
+            body {background-image: url({% static 'haira/img/about-xs.jpg' %});}
+        }
+    </style>
+{% endblock %}
+
+{% block header_brand %}
+    <a class="navbar-brand hidden-xs" href="{{ service.url }}" style="background-image: url({% static "haira/img/logo-haira-about.png" %}); background-position: center; background-size: cover; height: 100px; width: 100px">
+{#                                <img src="{% static "haira/img/logo-haira.png" %}" alt="ikwen-logo" style="height: 50px; ">#}
+    </a>
+    <strong class="navbar-brand visible-xs">{{ service.project_name }}</strong>
+{% endblock %}
+
+{% block page_content %}
+    <div class="about banner">
+        <div class="banner-top">
+            <div class="container">
+                <div class="col-md-10 centered-container">
+                    <h1 class="text-center text-has-shade">{% trans 'ABOUT' %}</h1>
+                    <p>
+                        {% blocktrans %}
+                            <strong style="color: #edc82f">ZULHAIRA BERYLIE</strong> is a young entrepreneur, a Fashion Enthusiast, a TV Host, and a Humanitarian.
+                            26yrs Old, Origin from the North West Region of Cameroon, studied at the Cameroon Higher
+                            Institute of technology and management (CITEC Yaoundé) and later further studies at the
+                            University of Chichester U.K. She started the Show business in 2018 as a Presenter for the
+                            International TV show CARTON ROUGE on Canal2 TV & Equinox. Later she became the host of
+                            LE PLATEAU DU JAGUAR on VISION4 TV then other TV channels across the national territory.
+                            From an average family and a painful past life experience, her desire to make a positive
+                            difference and impact the lives of Vulnerable young women pushed her into creating this
+                            platform HAIRA GLAMOUR NIGHT
+                        {% endblocktrans %}
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

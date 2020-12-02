@@ -1,0 +1,58 @@
+{% extends 'haira/home.html' %}
+{% load static humanize auth_tokens webdesign i18n currency user_agents staticfiles %}
+
+{% block page_title %}
+    <title>{% trans 'Gallery - Haira Global Network' %}</title>
+{% endblock %}
+
+{% block head_style %}
+    {{ block.super }}
+    <style>
+        body {
+            background-image: none;
+            font-family: Helvetica Neue, Helvetica, Arial, sans-serif;
+            font-size: 14px;
+            {#color:#000;#}
+            margin: 0;
+            padding: 0;
+        }
+        footer a:not(:hover), footer span {color: #525252;}
+    </style>
+
+{% endblock %}
+
+{% block page_content %}
+    <div class="gallery banner">
+        <div class="banner-top">
+            <div id="carousel-example-generic" class="carousel slide" data-ride="carousel">
+                <!-- Indicators -->
+                <ol class="carousel-indicators">
+                    {% for gallery in gallery_list %}
+                        <li data-target="#carousel-example-generic" data-slide-to="{{ forloop.counter0 }}" class="{% if forloop.counter0 == 0 %}active{% endif %}"></li>
+                    {% endfor %}
+                </ol>
+
+                <!-- Wrapper for slides -->
+                <div class="carousel-inner" role="listbox">
+                    {% for gallery in gallery_list %}
+                        <div class="item {% if forloop.counter0 == 0 %}active{% endif %}">
+                            <div class="side-image" style="background-image: url({% get_media_prefix %}{{ gallery.media }});"></div>
+                            <div class="centered-image" style="background-image: url({% get_media_prefix %}{{ gallery.media }});"></div>
+                        </div>
+                    {% endfor %}
+                </div>
+                <!-- Controls -->
+                <a class="left carousel-control" href="#carousel-example-generic" role="button" data-slide="prev">
+                    <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+                    <span class="sr-only">Previous</span>
+                </a>
+                <a class="right carousel-control" href="#carousel-example-generic" role="button" data-slide="next">
+                    <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+                    <span class="sr-only">Next</span>
+                </a>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% include 'billing/snippets/modal_payment_options.html' %}

@@ -1,0 +1,49 @@
+{% extends 'haira/home.html' %}
+{% load static humanize auth_tokens webdesign i18n currency user_agents staticfiles %}
+
+{% block page_title %}
+    <title>{% trans 'Glamour Night Eent - Haira Global Network' %}</title>
+{% endblock %}
+
+{% block head_style %}
+    {{ block.super }}
+    <style>
+        body {
+            background: #870000;  /* fallback for old browsers */
+            background: -webkit-linear-gradient(to right, #190A05, #870000);  /* Chrome 10-25, Safari 5.1-6 */
+            background: linear-gradient(to right, #190A05, #870000); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+        }
+        footer a:not(:hover), footer span {color: #fff;}
+    </style>
+
+{% endblock %}
+
+{% block page_content %}
+    <div class="glamour-night banner">
+        <div class="banner-top">
+            <div class="container">
+                <div class="centered-container">
+                    <div class="col-sm-6 image"></div>
+                    <div class="col-sm-6 text-center">
+                        <h1 class="text-has-shade">{% trans 'HAIRA GLAMOUR NIGHT' %}</h1>
+                        <p>
+                            {% blocktrans %}
+                                is a VIP event that brings
+                                together the elites and great personalities of the society for networking, promote and
+                                celebrate the diversity of the rich African culture through Fashion, Music,
+                                Lifestyle in the sole and unique reason to raise funds to empower young underprivileged
+                                women via training and personal development to become great entrepreneurs in the society.
+                            {% endblocktrans %}
+                        </p>
+                    </div>
+                    <div class="clearfix"></div>
+                </div>
+                <div class="legend">
+                    {% blocktrans %}
+                        <strong>Francoise PUENE</strong> will be the matrone of the 5th Edition.
+                    {% endblocktrans %}
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

@@ -1,0 +1,65 @@
+{% extends 'website/base.html' %}
+{% load static humanize auth_tokens webdesign i18n user_agents staticfiles %}
+
+{% block meta %}
+{#    {{ block.super }}#}
+    {% include 'haira/snippets/colors_and_icons.html' %}
+    <meta property="og:url" content="http://go.ikwen.com/hairaglobalnetwork" />
+    <meta property="og:image" content="{% static 'haira/img/logo-haira-about.png' %}" />
+    <meta property="og:title" content="{% trans "Welcome to Haira Global Network" %}"/>
+    <meta property="og:description" content="{{ config.description }}">
+    <meta property="description" content="{{ config.description }}" />
+{% endblock %}
+
+{% block page_title %}<title>{% trans "Welcome - Haira Global Network" %}</title>{% endblock %}
+
+{% block head_style %}
+    {{ block.super }}
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css" integrity="sha384-oS3vJWv+0UjzBfQzYUhtDYW+Pj2yciDJxpsK1OYPAYjqT085Qq/1cq5FLXAZQ7Ay" crossorigin="anonymous">
+    <link rel="stylesheet" href="{% static 'haira/css/haira.css' %}?V=20.12.02-02.31">
+{#    <link rel="stylesheet" href="{% static 'ikwen/css/base.css' %}">#}
+
+    <!-- Demo styles -->
+  <style>
+    html, body {
+      position: relative;
+      height: 100%;
+    }
+    body {
+        background-image: url({% static 'haira/img/banner1.jpg' %});
+        background-repeat: no-repeat;
+        {#background-blend-mode: luminosity;#}
+        height: 100vh;
+        color: #fff!important;
+
+      font-family: Helvetica Neue, Helvetica, Arial, sans-serif;
+      font-size: 14px;
+      {#color:#000;#}
+      margin: 0;
+      padding: 0;
+    }
+
+    @media (max-width: 767px) {
+        body {
+            background-image: url({% static 'haira/img/banner1-xs.jpg' %});
+        }
+    }
+  </style>
+
+{% endblock %}
+
+{% block page_content %}
+    <div class="welcome banner">
+        <div class="banner-top">
+            <div class="container">
+                <div class="header pull-right">
+                    <h1 class="text-has-shade">{% trans 'Welcome to Haira Global Network' %}</h1>
+                    <div class="go">
+                        <a class="col-sm-5 col-xs-12 btn btn-outline-success" href="{% url 'haira:booking' %}">{% trans 'Book now' %}</a>
+                        <a class="col-sm-5 col-xs-12 btn btn-outline-success col-sm-offset-2" href="{% url 'haira:donate' %}">{% trans 'Donate' %}</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
